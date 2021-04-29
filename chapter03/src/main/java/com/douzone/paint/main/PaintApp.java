@@ -1,4 +1,10 @@
-package paint;
+package com.douzone.paint.main;
+
+import com.douzone.paint.interf.Drawable;
+import com.douzone.paint.point.ColorPoint;
+import com.douzone.paint.point.Point;
+import com.douzone.paint.shape.*;
+import com.douzone.paint.text.GraphicText;
 
 public class PaintApp {
 
