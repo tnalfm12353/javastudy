@@ -56,5 +56,24 @@ public class PaintApp {
 		draw(circle);
 		
 		draw(new GraphicText("hello~"));
+		
+		//instanceof test 
+		
+		System.out.println(circle instanceof Object);
+		System.out.println(circle instanceof Shape);
+		System.out.println(circle instanceof Circle);
+		// Error : class는 hierachy 상위와 하위만 instanceof 연산자를 사용할 수 있다. 
+//		System.out.println(circle instanceof Triangle);
+		
+		Shape shape = new Circle();
+		System.out.println(shape instanceof Object);
+		System.out.println(shape instanceof Shape);
+		System.out.println(shape instanceof Circle);
+		System.out.println(shape instanceof Rect);  // false
+		
+		// interface는 hierachy와 상관없이  instanceof 연산자를 사용할 수 있다.
+		System.out.println(shape instanceof Drawable);
+		System.out.println(shape instanceof Runnable); // false -> 스레드의 인터페이스로 paintApp 과는 관련 없음.
+		
 	}
 }
