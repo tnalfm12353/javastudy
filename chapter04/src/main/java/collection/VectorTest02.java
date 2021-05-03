@@ -1,13 +1,13 @@
-package Collection;
+package collection;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Vector;
 
-public class ArrayListTest {
+public class VectorTest02 {
 
 	public static void main(String[] args) {
-		List<String> list = new ArrayList<>();
+		List<String> list = new Vector<>();
 		list.add("뚤리");
 		list.add("마이클");
 		list.add("또치");

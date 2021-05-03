@@ -30,12 +30,12 @@ public class Account {
 
 	
 	public void save(int i) {
-		balance = balance + i;
+		balance += i;
 		System.out.println(this.accountNo+"계좌에 "+ i +"만원이 입금되었습니다.");
 	}
 
 	public void deposit(int i) {
-		balance = balance - i;
+		balance -= i;
 		System.out.println(this.accountNo+"계좌에 "+ i +"만원이 출금되었습니다.");
 	}
 

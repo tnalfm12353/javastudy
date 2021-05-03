@@ -15,7 +15,7 @@ public class Printer {
 //		System.out.println(i);
 //	}
 	
-	public void println(Object i) {
+	public <T> void println(T i) {
 		System.out.println(i);
 	}
 	

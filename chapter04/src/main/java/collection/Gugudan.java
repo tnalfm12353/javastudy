@@ -1,4 +1,4 @@
-package Collection;
+package collection;
 
 public class Gugudan {
 

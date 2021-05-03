@@ -6,7 +6,12 @@ public class Prob5 {
 		
 		for(int i = 1 ; i <= 99; i++) {
 			int clapCount = 0; 
-			String intToString = String.valueOf(i); 
+			String intToString = String.valueOf(i);
+//			char StringToChar [] = intToString.toCharArray();
+//			
+//			for (int j = 0; j < StringToChar.length ; j++) {
+//				
+//			}
 			if(intToString.charAt(0) % 3 == 0 ) {
 				clapCount++;
 			}
