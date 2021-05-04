@@ -15,10 +15,11 @@ public class EchoClient {
 	private static final String SERVER_IP = "127.0.0.1";
 
 	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
+		Scanner sc = null;
 		Socket socket = null;
 
 		try {
+			sc = new Scanner(System.in);
 			// 1. 소캣 생성
 			socket = new Socket();
 
@@ -31,15 +32,15 @@ public class EchoClient {
 			PrintWriter pw = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(),"UTF-8"),true);
 
 			while(true) {
-				// 4. 쓰기
+				// 4. 키보드 입력
 				System.out.print(">");
 				String line = sc.nextLine();
-				// 데이터 쓰기
-				pw.println(line);
 				if("exit".equals(line)) {
 					break;
 				}
-				// 데이터 읽기
+				// 5. 데이터 쓰기
+				pw.println(line);
+				// 6. 데이터 읽기
 				String data = br.readLine();
 				if( data == null) {
 					log("closed by server");
