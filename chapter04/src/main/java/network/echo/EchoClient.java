@@ -67,7 +67,7 @@ public class EchoClient {
 			}
 		}
 	}
-	private static void log (String log) {
+	public static void log (String log) {
 		System.out.println("[EchoClient] " + log);
 	}
 }
