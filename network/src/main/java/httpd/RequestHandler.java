@@ -103,29 +103,28 @@ public class RequestHandler extends Thread {
 		// nio
 		byte [] body = Files.readAllBytes(file.toPath());
 		String contentType = Files.probeContentType(file.toPath());
-		outputStream.write((protocol + " 200 OK\r\n").getBytes( "UTF-8" ) );
-		outputStream.write(("Content-Type:" + contentType + ";charset=utf-8\r\n").getBytes( "UTF-8" ) );
-		outputStream.write("\r\n".getBytes() );
-		outputStream.write(body);
+		String status = " 200 OK";
+		response(outputStream, protocol, status, body, contentType);
 	}
 	
 	private void notFoundResponse(OutputStream outputStream, String protocol) throws IOException {
 		File file = new File(DOCUMENT_ROOT + ERROR + ERROR_404);
 		byte [] body = Files.readAllBytes(file.toPath());
 		String contentType = Files.probeContentType(file.toPath());
-	
-		outputStream.write((protocol + " 404 File Not Found\r\n").getBytes( "UTF-8" ) );
-		outputStream.write(("Content-Type:" + contentType + ";charset=utf-8\r\n").getBytes( "UTF-8" ) );
-		outputStream.write("\r\n".getBytes() );
-		outputStream.write(body);
+		String status = " 404 Not Found";
+		response(outputStream, protocol, status, body, contentType);
 	}
 	
 	private void badRequestResponse(OutputStream outputStream, String protocol) throws IOException{
 		File file = new File(DOCUMENT_ROOT + ERROR + ERROR_400);
 		byte [] body = Files.readAllBytes(file.toPath());
 		String contentType = Files.probeContentType(file.toPath());
-		
-		outputStream.write((protocol + " 400 Bad Request\r\n").getBytes( "UTF-8" ) );
+		String status = " 400 Bad Request";
+		response(outputStream, protocol, status, body, contentType);
+	}
+	
+	private void response(OutputStream outputStream, String protocol, String status, byte [] body , String contentType) throws IOException {
+		outputStream.write((protocol + " "+ status +"\r\n").getBytes( "UTF-8" ) );
 		outputStream.write(("Content-Type:" + contentType + ";charset=utf-8\r\n").getBytes( "UTF-8" ) );
 		outputStream.write("\r\n".getBytes() );
 		outputStream.write(body);
