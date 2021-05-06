@@ -1,13 +1,20 @@
 package httpd;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.nio.file.Files;
 
 public class RequestHandler extends Thread {
+	
+	private static final String DOCUMENT_ROOT = "./webapp";
+	private static final String ERROR = "/error";
+	private static final String ERROR_404 = "/404.html";
+	private static final String ERROR_400 = "/400.html";
 	private Socket socket;
 	
 	public RequestHandler( Socket socket ) {
@@ -46,14 +53,25 @@ public class RequestHandler extends Thread {
 					break ;
 				}
 			}
-			consoleLog(request);
+
+			// 요청 처리
+			String [] tokens = request.split(" ");
+			if("GET".equals(tokens[0])) {
+				consoleLog("request : " + tokens[1]);
+				responseStaticResource(outputStream, tokens[1], tokens[2]);
+				
+			} else { // methods : POST, PUT, DELETE, HEAD, CONNECT
+				/* Simple Http Server에서는 무시 */
+				badRequestResponse(outputStream, tokens[2]);
+			}
+			
 			
 			// 예제 응답입니다.
 			// 서버 시작과 테스트를 마친 후, 주석 처리 합니다.
-			outputStream.write( "HTTP/1.1 200 OK\r\n".getBytes( "UTF-8" ) );
-			outputStream.write( "Content-Type:text/html; charset=utf-8\r\n".getBytes( "UTF-8" ) );
-			outputStream.write( "\r\n".getBytes() );
-			outputStream.write( "<h1>이 페이지가 잘 보이면 실습과제 SimpleHttpServer를 시작할 준비가 된 것입니다.</h1>".getBytes( "UTF-8" ) );
+//			outputStream.write( "HTTP/1.1 200 OK\r\n".getBytes( "UTF-8" ) );
+//			outputStream.write( "Content-Type:text/html; charset=utf-8\r\n".getBytes( "UTF-8" ) );
+//			outputStream.write( "\r\n".getBytes() );
+//			outputStream.write( "<h1>이 페이지가 잘 보이면 실습과제 SimpleHttpServer를 시작할 준비가 된 것입니다.</h1>".getBytes( "UTF-8" ) );
 
 		} catch( Exception ex ) {
 			consoleLog( "error:" + ex );
@@ -68,6 +86,49 @@ public class RequestHandler extends Thread {
 				consoleLog( "error:" + ex );
 			}
 		}			
+	}
+
+	private void responseStaticResource(OutputStream outputStream, String url, String protocol) throws IOException {
+		// set welcome file 
+		if("/".equals(url)) {
+			url = "/index.html";
+		}
+		
+		File file = new File(DOCUMENT_ROOT + url);
+	
+		if(!file.exists()) {
+			notFoundResponse(outputStream,protocol);
+		}
+		
+		// nio
+		byte [] body = Files.readAllBytes(file.toPath());
+		String contentType = Files.probeContentType(file.toPath());
+		outputStream.write((protocol + " 200 OK\r\n").getBytes( "UTF-8" ) );
+		outputStream.write(("Content-Type:" + contentType + ";charset=utf-8\r\n").getBytes( "UTF-8" ) );
+		outputStream.write("\r\n".getBytes() );
+		outputStream.write(body);
+	}
+	
+	private void notFoundResponse(OutputStream outputStream, String protocol) throws IOException {
+		File file = new File(DOCUMENT_ROOT + ERROR + ERROR_404);
+		byte [] body = Files.readAllBytes(file.toPath());
+		String contentType = Files.probeContentType(file.toPath());
+	
+		outputStream.write((protocol + " 404 File Not Found\r\n").getBytes( "UTF-8" ) );
+		outputStream.write(("Content-Type:" + contentType + ";charset=utf-8\r\n").getBytes( "UTF-8" ) );
+		outputStream.write("\r\n".getBytes() );
+		outputStream.write(body);
+	}
+	
+	private void badRequestResponse(OutputStream outputStream, String protocol) throws IOException{
+		File file = new File(DOCUMENT_ROOT + ERROR + ERROR_400);
+		byte [] body = Files.readAllBytes(file.toPath());
+		String contentType = Files.probeContentType(file.toPath());
+		
+		outputStream.write((protocol + " 400 Bad Request\r\n").getBytes( "UTF-8" ) );
+		outputStream.write(("Content-Type:" + contentType + ";charset=utf-8\r\n").getBytes( "UTF-8" ) );
+		outputStream.write("\r\n".getBytes() );
+		outputStream.write(body);
 	}
 
 	public void consoleLog( String message ) {
