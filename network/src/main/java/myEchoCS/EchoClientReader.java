@@ -7,7 +7,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 import java.util.Scanner;
 
-import network.echo.EchoClient;
+import echo.EchoClient;
 
 public class EchoClientReader extends Thread{
 	
