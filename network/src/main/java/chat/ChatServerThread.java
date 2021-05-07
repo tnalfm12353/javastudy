@@ -30,11 +30,11 @@ public class ChatServerThread extends Thread{
 			
 			while( true ) {
 				String request = br.readLine();
-				if(request == null) {
-					log("클라이언트로 부터 연결 끊김");
-					doQuit(pw);
-					break;
-				}
+//				if(request == null) {
+//					log("클라이언트로 부터 연결 끊김");
+//					doQuit(pw);
+//					break;
+//				}
 			
 				String tokens [] = request.split(":");
 				if( "join".equals(tokens[0])) {
@@ -94,13 +94,7 @@ public class ChatServerThread extends Thread{
 	}
 
 	private void doMessage(String data) {
-		 synchronized (listWriters) {
-			 for(Writer writer: listWriters) {
-				PrintWriter pw = new PrintWriter(writer,true);
-				pw.println(data);
-			 }
-		}	
-		
+		broadcast(data);
 	}
 	
 	private void doQuit(Writer writer) {

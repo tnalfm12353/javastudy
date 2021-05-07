@@ -20,10 +20,10 @@ public class ChatClientThread extends Thread{
 			while(true) {
 
 				String data = br.readLine();
-				if( data == null ) {
-					ChatClient.log("closed by server");
-					break;
-				}
+//				if( data == null ) {
+//					ChatClient.log("closed by server");
+//					break;
+//				}
 				
 				if("join:ok".equals(data)) {
 					System.out.println(myNickname + "님 환영합니다.");
@@ -37,14 +37,12 @@ public class ChatClientThread extends Thread{
 		} catch (SocketException e) {
 			ChatClient.log("closed by server");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			try {
 				if(br != null )
 					br.close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
