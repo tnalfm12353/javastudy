@@ -18,6 +18,9 @@ public class TCPServer {
 			// 1. 서버소캣 생성
 			serverSocket = new ServerSocket();
 
+			// 1-1. Time Wait 상태에서도 소캣에 포트 번호 할당이 가능하게 하기 위해서.
+			serverSocket.setReuseAddress(true);
+			
 			// 2. 바인딩(Binding)
 			//	  Socket에 InetSocketAddress(IPAddress + Port) --> IPAddress는 내 ip가 아닌 받을 ip주소
 			//    IPAddress : 0.0.0.0 -> 모든 IP 접근 허용

@@ -20,6 +20,22 @@ public class TCPClient {
 			// 1. 소캣 생성
 			socket = new Socket();
 			
+			// 1-1 소캣 버퍼사이즈 확인
+			int reciveBufferSize = socket.getReceiveBufferSize();
+			int sendBufferSize = socket.getSendBufferSize();
+			System.out.println("[Client] " + reciveBufferSize + ":" + sendBufferSize);
+
+			// 1-2 소캣 버퍼사이즈 변경
+			socket.setReceiveBufferSize(1024*10);
+			socket.setSendBufferSize(1024*10);
+			reciveBufferSize = socket.getReceiveBufferSize();
+			sendBufferSize = socket.getSendBufferSize();
+			System.out.println("[Client] " + reciveBufferSize + ":" + sendBufferSize);
+			
+			// 1-3. SO_NODELAY(Nagle Algorithm off)
+			socket.setTcpNoDelay(true);
+			
+			
 			// 2. 서버 연결
 			socket.connect(new InetSocketAddress(SERVER_IP, SERVER_PORT));
 			System.out.println("[Client] connected");
