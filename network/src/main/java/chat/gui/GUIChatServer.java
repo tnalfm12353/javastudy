@@ -13,7 +13,7 @@ public class GUIChatServer {
 	public static void main(String[] args) {
 
 		ServerSocket serverSocket = null;
-		List<PrintWriter> listWriters = new ArrayList<>();
+		List<ClientDomain> listWriters = new ArrayList<>();
 		
 		try {
 			serverSocket = new ServerSocket();

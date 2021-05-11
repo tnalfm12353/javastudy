@@ -107,7 +107,20 @@ public class ChatWindow {
 	
 	private void sendMessage() {
 		String message = textField.getText();
-		pw.println(message);
+		
+		if(message.startsWith("/", 0)) {
+			String tokens [] = message.split(":"); 
+			switch (tokens[0]) {
+			case "/help": updateTextArea("귓속말 명령어 /msg:[이름] 할 말"); 
+				break;
+			case "/msg" : pw.println(message);
+				break;
+			default: updateTextArea("귓속말 명령어 /msg:[이름] 할 말");
+				break;
+			}
+		}else {
+			pw.println(message);
+		}
 		textField.setText("");
 		textField.requestFocus();
 	}
