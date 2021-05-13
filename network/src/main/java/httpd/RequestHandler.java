@@ -15,7 +15,13 @@ public class RequestHandler extends Thread {
 	private static final String ERROR = "/error";
 	private static final String ERROR_404 = "/404.html";
 	private static final String ERROR_400 = "/400.html";
+	private static String DOUMENTROOT="";
 	private Socket socket;
+	
+//	static {
+//		DOUMENTROOT = RequestHandler.class.getClass().getResourceAsStream("/webapp").toString();
+//		System.out.println(DOUMENTROOT);
+//	}
 	
 	public RequestHandler( Socket socket ) {
 		this.socket = socket;
@@ -98,6 +104,7 @@ public class RequestHandler extends Thread {
 	
 		if(!file.exists()) {
 			notFoundResponse(outputStream,protocol);
+
 		}
 		
 		// nio
@@ -109,6 +116,10 @@ public class RequestHandler extends Thread {
 	
 	private void notFoundResponse(OutputStream outputStream, String protocol) throws IOException {
 		File file = new File(DOCUMENT_ROOT + ERROR + ERROR_404);
+		if(!file.exists()) {
+			System.out.println("file not found:" + file.getAbsolutePath());
+			return ;
+		}
 		byte [] body = Files.readAllBytes(file.toPath());
 		String contentType = Files.probeContentType(file.toPath());
 		String status = " 404 Not Found";
@@ -117,6 +128,10 @@ public class RequestHandler extends Thread {
 	
 	private void badRequestResponse(OutputStream outputStream, String protocol) throws IOException{
 		File file = new File(DOCUMENT_ROOT + ERROR + ERROR_400);
+		if(!file.exists()) {
+			System.out.println("file not found:" + file.getAbsolutePath());
+			return ;
+		}
 		byte [] body = Files.readAllBytes(file.toPath());
 		String contentType = Files.probeContentType(file.toPath());
 		String status = " 400 Bad Request";

@@ -12,6 +12,6 @@ public class UDPTimeServer {
 //		
 //		// 데이터 송신
 //		String now = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-//	}
+	}
 
 }
