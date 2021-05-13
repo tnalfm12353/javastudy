@@ -15,13 +15,8 @@ public class RequestHandler extends Thread {
 	private static final String ERROR = "/error";
 	private static final String ERROR_404 = "/404.html";
 	private static final String ERROR_400 = "/400.html";
-	private static String DOUMENTROOT="";
 	private Socket socket;
 	
-//	static {
-//		DOUMENTROOT = RequestHandler.class.getClass().getResourceAsStream("/webapp").toString();
-//		System.out.println(DOUMENTROOT);
-//	}
 	
 	public RequestHandler( Socket socket ) {
 		this.socket = socket;
@@ -104,7 +99,8 @@ public class RequestHandler extends Thread {
 	
 		if(!file.exists()) {
 			notFoundResponse(outputStream,protocol);
-
+			
+			return ;
 		}
 		
 		// nio
@@ -118,6 +114,7 @@ public class RequestHandler extends Thread {
 		File file = new File(DOCUMENT_ROOT + ERROR + ERROR_404);
 		if(!file.exists()) {
 			System.out.println("file not found:" + file.getAbsolutePath());
+			
 			return ;
 		}
 		byte [] body = Files.readAllBytes(file.toPath());
